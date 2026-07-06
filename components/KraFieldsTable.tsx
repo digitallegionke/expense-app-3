@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.textBlack,
   },
   card: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: fonts.medium,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textMuted3,
   },
   labelBold: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   value: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textBlack,
     textAlign: 'right',
     flexShrink: 1,

@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.semibold,
     fontSize: 20,
     letterSpacing: -0.43,
-    lineHeight: 22,
+    lineHeight: 27,
     color: '#666666',
   },
   content: {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   merchant: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textBlack,
   },
   tag: {
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   amount: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.teal,
     textAlign: 'right',
   },
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: fonts.medium,
     fontSize: 10,
-    lineHeight: 12,
+    lineHeight: 14,
     color: colors.textMuted2,
   },
   needsReviewBanner: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   portalButtonText: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.primary,
   },
 });

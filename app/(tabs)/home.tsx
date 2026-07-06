@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.monoSemibold,
     fontSize: 32,
     letterSpacing: -0.64,
-    lineHeight: 40,
+    lineHeight: 43,
     color: colors.teal,
   },
   totalTax: {
     fontFamily: fonts.monoMedium,
     fontSize: 22,
     letterSpacing: -0.64,
-    lineHeight: 28,
+    lineHeight: 30,
     color: colors.textMuted5,
   },
   pctPill: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.monoSemibold,
     fontSize: 26,
     letterSpacing: -0.64,
-    lineHeight: 32,
+    lineHeight: 35,
     color: colors.textBlack,
   },
   miniLabel: {
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   recentTitle: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.textBlack,
   },
   seeAll: {
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   scanButtonText: {
     fontFamily: fonts.semibold,
     fontSize: 18,
-    lineHeight: 22,
+    lineHeight: 25,
     color: colors.white,
   },
 });

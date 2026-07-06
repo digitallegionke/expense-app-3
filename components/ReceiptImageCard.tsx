@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.medium,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textMuted3,
   },
   card: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   hintText: {
     fontFamily: fonts.medium,
     fontSize: 12,
-    lineHeight: 15,
+    lineHeight: 17,
     color: colors.white,
   },
 });

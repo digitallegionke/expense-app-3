@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.semibold,
     fontSize: 10,
-    lineHeight: 12,
+    lineHeight: 14,
     color: colors.primary,
     textAlign: 'center',
   },

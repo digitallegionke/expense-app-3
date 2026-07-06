@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.semibold,
     fontSize: 20,
     letterSpacing: -0.43,
-    lineHeight: 22,
+    lineHeight: 27,
     color: '#666666',
   },
   content: {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   copyText: {
     fontFamily: fonts.semibold,
     fontSize: 13,
-    lineHeight: 16,
+    lineHeight: 18,
     color: colors.primary,
   },
   insightsRow: {
@@ -225,20 +225,20 @@ const styles = StyleSheet.create({
   insightLabel: {
     fontFamily: fonts.medium,
     fontSize: 10,
-    lineHeight: 12,
+    lineHeight: 14,
     letterSpacing: 0.3,
     color: colors.textMuted2,
   },
   insightValue: {
     fontFamily: fonts.semibold,
     fontSize: 15,
-    lineHeight: 19,
+    lineHeight: 21,
     color: colors.textBlack,
   },
   insightSub: {
     fontFamily: fonts.medium,
     fontSize: 12,
-    lineHeight: 15,
+    lineHeight: 17,
     color: colors.textMuted2,
   },
   statCard: {
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textBlack,
   },
   statValueSmall: {
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   statLabel: {
     fontFamily: fonts.medium,
     fontSize: 9,
-    lineHeight: 11,
+    lineHeight: 13,
     letterSpacing: 0.3,
     color: colors.textMuted2,
     textAlign: 'center',
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
   itemName: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textBlack,
   },
   itemUnitPrice: {
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   itemTotal: {
     fontFamily: fonts.semibold,
     fontSize: 15,
-    lineHeight: 19,
+    lineHeight: 21,
     color: colors.textBlack,
   },
   subtotalRow: {
@@ -350,13 +350,13 @@ const styles = StyleSheet.create({
   subtotalLabel: {
     fontFamily: fonts.medium,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textMuted3,
   },
   subtotalValue: {
     fontFamily: fonts.semibold,
     fontSize: 15,
-    lineHeight: 19,
+    lineHeight: 21,
     color: colors.textBlack,
   },
   savingsText: {
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
   editText: {
     fontFamily: fonts.semibold,
     fontSize: 13,
-    lineHeight: 16,
+    lineHeight: 18,
     color: colors.primary,
   },
   notesEmpty: {
@@ -388,13 +388,13 @@ const styles = StyleSheet.create({
   notesEmptyText: {
     fontFamily: fonts.medium,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textMuted2,
   },
   footerText: {
     fontFamily: fonts.medium,
     fontSize: 12,
-    lineHeight: 15,
+    lineHeight: 17,
     color: colors.textMuted2,
     textAlign: 'center',
   },
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   portalButtonText: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.primary,
   },
 });

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   merchant: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textBlack,
   },
   tag: {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   amount: {
     fontFamily: fonts.semibold,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.teal,
     textAlign: 'right',
   },
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: fonts.medium,
     fontSize: 10,
-    lineHeight: 12,
+    lineHeight: 14,
     color: colors.textMuted2,
   },
   needsReview: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   needsReviewText: {
     fontFamily: fonts.medium,
     fontSize: 11,
-    lineHeight: 14,
+    lineHeight: 15,
     color: colors.warning,
   },
 });

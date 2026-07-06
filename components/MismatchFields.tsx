@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: fonts.medium,
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 19,
     color: colors.textMuted3,
   },
   stackedBlock: {
@@ -108,14 +108,14 @@ const styles = StyleSheet.create({
   value: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.textBlack,
     textAlign: 'right',
   },
   valueStacked: {
     fontFamily: fonts.semibold,
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     color: colors.textBlack,
   },
 });
