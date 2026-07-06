@@ -30,7 +30,9 @@ export default function ReceiptDetailsScreen() {
         <Pressable style={styles.toolbarButton} onPress={() => router.back()}>
           <BackArrowIcon />
         </Pressable>
-        <Text style={styles.toolbarTitle}>Receipt Details</Text>
+        <Text style={styles.toolbarTitle} numberOfLines={1}>
+          Receipt Details
+        </Text>
         <Pressable style={styles.toolbarButton}>
           <MoreIcon />
         </Pressable>
@@ -174,6 +176,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   toolbarTitle: {
+    flex: 1,
+    textAlign: 'center',
     fontFamily: fonts.semibold,
     fontSize: 20,
     letterSpacing: -0.43,

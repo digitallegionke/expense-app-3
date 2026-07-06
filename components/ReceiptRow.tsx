@@ -8,7 +8,9 @@ export function ReceiptRow({ receipt, onPress }: { receipt: Receipt; onPress?: (
     <Pressable onPress={onPress} style={styles.container}>
       <View style={styles.row}>
         <View style={styles.left}>
-          <Text style={styles.merchant}>{receipt.merchant}</Text>
+          <Text style={styles.merchant} numberOfLines={2} ellipsizeMode="tail">
+            {receipt.merchant}
+          </Text>
           <View style={styles.tag}>
             <Text style={styles.tagText}>{receipt.category}</Text>
           </View>
@@ -48,6 +50,7 @@ const styles = StyleSheet.create({
   },
   left: {
     flex: 1,
+    minWidth: 0,
     gap: 6,
   },
   merchant: {
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
   },
   right: {
     alignItems: 'flex-end',
+    flexShrink: 0,
     gap: 3,
   },
   amount: {

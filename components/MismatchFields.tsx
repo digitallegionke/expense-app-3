@@ -104,8 +104,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     color: colors.textMuted4,
+    flexShrink: 0,
   },
   value: {
+    flex: 1,
     fontFamily: fonts.semibold,
     fontSize: 16,
     lineHeight: 22,

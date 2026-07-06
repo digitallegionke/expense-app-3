@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 1,
+    minWidth: 0,
     fontFamily: fonts.medium,
     fontSize: 14,
     lineHeight: 19,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    flexShrink: 1,
+    maxWidth: '55%',
   },
   value: {
     fontFamily: fonts.semibold,
