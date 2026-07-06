@@ -8,13 +8,9 @@ type IconProps = {
 export function BellIcon({ size = 30, color = '#3D3C40' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 30 30">
-      <G transform="translate(3.5, 3.5) rotate(180 11.25 11.25)">
+      <G transform="translate(3.5, 3.5)">
         <Path
           d="M22.405 21.729C22.499 21.500 22.524 21.249 22.476 21.006C22.428 20.764 22.308 20.541 22.133 20.366C22.133 20.366 20.000 18.233 20.000 18.233C20.000 18.233 20.000 11.250 20.000 11.250C19.997 9.148 19.238 7.117 17.861 5.528C16.484 3.940 14.580 2.900 12.500 2.600C12.500 2.600 12.500 1.250 12.500 1.250C12.500 0.918 12.368 0.601 12.134 0.366C11.899 0.132 11.581 0.000 11.250 0.000C10.918 0.000 10.600 0.132 10.366 0.366C10.131 0.601 10.000 0.918 10.000 1.250C10.000 1.250 10.000 2.600 10.000 2.600C7.919 2.900 6.016 3.940 4.639 5.528C3.261 7.117 2.502 9.148 2.500 11.250C2.500 11.250 2.500 18.233 2.500 18.233C2.500 18.233 0.366 20.366 0.366 20.366C0.191 20.541 0.072 20.764 0.024 21.006C-0.024 21.249 0.001 21.500 0.095 21.728C0.190 21.957 0.350 22.152 0.555 22.289C0.761 22.427 1.003 22.500 1.250 22.500C1.250 22.500 21.250 22.500 21.250 22.500C21.497 22.500 21.739 22.427 21.944 22.290C22.150 22.152 22.310 21.957 22.405 21.729Z"
-          fill={color}
-        />
-        <Path
-          d="M2.500 2.500C3.163 2.500 3.799 2.237 4.268 1.768C4.737 1.299 5.000 0.663 5.000 0.000C5.000 0.000 0.000 0.000 0.000 0.000C0.000 0.663 0.263 1.299 0.732 1.768C1.201 2.237 1.837 2.500 2.500 2.500Z"
           fill={color}
         />
       </G>
@@ -221,6 +217,84 @@ export function ChevronDownIcon({ size = 16, color = '#949494' }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
       <Path d="M6 9l6 6 6-6" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+    </Svg>
+  );
+}
+
+export function ChevronLeftIcon({ size = 20, color = '#949494' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" style={{ transform: [{ rotate: '90deg' }] }}>
+      <Path
+        d="M12 15.5a1 1 0 0 1-.707-.293l-6-6a1 1 0 1 1 1.414-1.414L12 13.086l5.293-5.293a1 1 0 1 1 1.414 1.414l-6 6A1 1 0 0 1 12 15.5Z"
+        fill={color}
+      />
+    </Svg>
+  );
+}
+
+export function BanknoteIcon({ size = 18, color = '#69508C' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Rect x={2} y={6} width={20} height={12} rx={2} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Circle cx={12} cy={12} r={2.5} fill="none" stroke={color} strokeWidth={2} />
+      <Line x1={6} y1={12} x2={6.01} y2={12} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Line x1={18} y1={12} x2={18.01} y2={12} stroke={color} strokeWidth={2} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function CalculatorIcon({ size = 18, color = '#158578' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Rect x={4} y={2} width={16} height={20} rx={2} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Line x1={8} y1={6.5} x2={16} y2={6.5} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Circle cx={8} cy={11} r={1} fill={color} />
+      <Circle cx={12} cy={11} r={1} fill={color} />
+      <Circle cx={16} cy={11} r={1} fill={color} />
+      <Circle cx={8} cy={15} r={1} fill={color} />
+      <Circle cx={12} cy={15} r={1} fill={color} />
+      <Circle cx={16} cy={15} r={1} fill={color} />
+      <Circle cx={8} cy={19} r={1} fill={color} />
+      <Circle cx={12} cy={19} r={1} fill={color} />
+    </Svg>
+  );
+}
+
+export function ReceiptStackIcon({ size = 18, color = '#2F6FA6' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path
+        d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"
+        fill="none"
+        stroke={color}
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Line x1={8} y1={7} x2={16} y2={7} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Line x1={8} y1={11} x2={16} y2={11} stroke={color} strokeWidth={2} strokeLinecap="round" />
+      <Line x1={8} y1={15} x2={13} y2={15} stroke={color} strokeWidth={2} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function DownloadIcon({ size = 16, color = '#69508C' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="M7 10l5 5 5-5" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Line x1={12} y1={15} x2={12} y2={3} stroke={color} strokeWidth={2} strokeLinecap="round" />
+    </Svg>
+  );
+}
+
+export function BarChartIcon({ size = 40, color = '#939393' }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24">
+      <Line x1={3} y1={21} x2={3} y2={3} stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Rect x={6} y={13} width={4} height={8} rx={1} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Rect x={12} y={8} width={4} height={13} rx={1} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <Rect x={18} y={16} width={4} height={5} rx={1} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
     </Svg>
   );
 }

@@ -26,6 +26,9 @@ export const colors = {
   warningTintLight: '#A96A3512',
   warningTintStrong: '#A96A3521',
 
+  info: '#2F6FA6',
+  infoTint: '#2F6FA612',
+
   divider: '#DCDCDC',
   divider2: '#E0E0E0',
 
