@@ -70,7 +70,7 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
 
-      <View style={[styles.scanButtonWrap, { bottom: insets.bottom + 20 }]} pointerEvents="box-none">
+      <View style={[styles.scanButtonWrap, { bottom: 8 }]} pointerEvents="box-none">
         <Pressable style={styles.scanButton}>
           <Text style={styles.scanButtonText}>Scan Receipt</Text>
         </Pressable>
@@ -219,6 +219,11 @@ const styles = StyleSheet.create({
     paddingVertical: 17,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 4,
   },
   scanButtonText: {
     fontFamily: fonts.semibold,

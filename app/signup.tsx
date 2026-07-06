@@ -14,11 +14,10 @@ import { User, Mail, Lock, Wallet, AlertCircle } from 'lucide-react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { useStore } from '../stores/useStore';
-import { supabase } from '../lib/supabase';
 
 export default function SignUpScreen() {
   const router = useRouter();
-  const { initialize } = useStore();
+  const { signUp } = useStore();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,43 +67,11 @@ export default function SignUpScreen() {
     setErrorMessage('');
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: {
-          data: {
-            name: name.trim(),
-          },
-        },
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        // Profile will be auto-created by the trigger in schema.sql
-        // Initialize store with user data
-        await initialize();
-        router.replace('/(tabs)/home');
-      }
+      await signUp(name.trim(), email.trim(), password);
+      router.replace('/(tabs)/home');
     } catch (error: any) {
       console.error('Sign up error:', error);
-
-      // Provide user-friendly error messages
-      let userMessage = 'Failed to create account. Please try again.';
-
-      if (error.message?.includes('Network request failed') ||
-          error.message?.includes('fetch failed') ||
-          error.message?.includes('Failed to fetch')) {
-        userMessage = '🔌 Unable to connect to server. Please check your internet connection and try again.';
-      } else if (error.message?.includes('User already registered')) {
-        userMessage = 'An account with this email already exists. Please sign in instead.';
-      } else if (error.message?.includes('Invalid email')) {
-        userMessage = 'Please enter a valid email address.';
-      } else if (error.message) {
-        userMessage = error.message;
-      }
-
-      setErrorMessage(userMessage);
+      setErrorMessage(error.message || 'Failed to create account. Please try again.');
     } finally {
       setIsLoading(false);
     }

@@ -34,19 +34,14 @@ export const colors = {
   danger: '#E00303',
 } as const;
 
-// The Paper design specs "Open Runde" for UI text. Its font files aren't
-// distributed on npm/Google Fonts, so we substitute Nunito (same rounded,
-// friendly geometric-sans category) via @expo-google-fonts/nunito. Drop real
-// OpenRunde-*.ttf files into assets/fonts and swap the values below to get
-// pixel-exact typography.
 export const fonts = {
-  regular: 'Nunito_400Regular',
-  medium: 'Nunito_500Medium',
-  semibold: 'Nunito_600SemiBold',
-  bold: 'Nunito_700Bold',
-  mono: 'ChivoMono_400Regular',
-  monoMedium: 'ChivoMono_500Medium',
-  monoSemibold: 'ChivoMono_600SemiBold',
+  regular: 'Geist-Regular',
+  medium: 'Geist-Medium',
+  semibold: 'Geist-SemiBold',
+  bold: 'Geist-Bold',
+  mono: 'GeistMono-Regular',
+  monoMedium: 'GeistMono-Medium',
+  monoSemibold: 'GeistMono-SemiBold',
 } as const;
 
 export const radii = {

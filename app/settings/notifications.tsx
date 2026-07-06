@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { ArrowLeft } from 'lucide-react-native';
-import { supabase } from '../../lib/supabase';
+import { notificationPreferencesStorage } from '../../utils/notificationPreferencesStorage';
 
 interface ToggleSwitchProps {
   enabled: boolean;
@@ -59,43 +59,27 @@ export default function NotificationsScreen() {
   const [budgetAlerts, setBudgetAlerts] = useState(true);
   const [loading, setLoading] = useState(true);
 
-  const updateNotificationPreference = async (key: string, value: boolean) => {
-    const { error } = await supabase
-      .from('profiles')
-      .update({ [key]: value })
-      .eq('id', (await supabase.auth.getSession()).data.session?.user.id);
-
-    if (error) {
+  const updateNotificationPreference = async (
+    key: keyof Awaited<ReturnType<typeof notificationPreferencesStorage.load>>,
+    value: boolean
+  ) => {
+    try {
+      const current = await notificationPreferencesStorage.load();
+      await notificationPreferencesStorage.save({ ...current, [key]: value });
+    } catch (error) {
       console.error(`Error updating ${key} preference:`, error);
     }
   };
 
   useEffect(() => {
     const fetchNotificationPreferences = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select(
-          'push_notifications_enabled, email_notifications_enabled, expense_alerts_enabled, weekly_reports_enabled, monthly_reports_enabled, budget_alerts_enabled'
-        )
-        .single();
-
-      if (error) {
-        console.error('Error fetching notification preferences:', error);
-        // Set default values if there's an error fetching
-        setPushNotifications(true);
-        setEmailNotifications(true);
-        setExpenseAlerts(true);
-        setWeeklyReports(false);
-        setMonthlyReports(true);
-        setBudgetAlerts(true);
-      } else if (data) {
-        setPushNotifications(data.push_notifications_enabled);
-        setEmailNotifications(data.email_notifications_enabled);
-        setExpenseAlerts(data.expense_alerts_enabled);
-        setWeeklyReports(data.weekly_reports_enabled);
-        setMonthlyReports(data.monthly_reports_enabled);
-        setBudgetAlerts(data.budget_alerts_enabled);
-      }
+      const preferences = await notificationPreferencesStorage.load();
+      setPushNotifications(preferences.pushNotifications);
+      setEmailNotifications(preferences.emailNotifications);
+      setExpenseAlerts(preferences.expenseAlerts);
+      setWeeklyReports(preferences.weeklyReports);
+      setMonthlyReports(preferences.monthlyReports);
+      setBudgetAlerts(preferences.budgetAlerts);
       setLoading(false);
     };
 
@@ -140,7 +124,7 @@ export default function NotificationsScreen() {
               enabled={pushNotifications}
               onChange={(value) => {
                 setPushNotifications(value);
-                updateNotificationPreference('push_notifications_enabled', value);
+                updateNotificationPreference('pushNotifications', value);
               }}
             />
             <View style={styles.divider} />
@@ -150,7 +134,7 @@ export default function NotificationsScreen() {
               enabled={emailNotifications}
               onChange={(value) => {
                 setEmailNotifications(value);
-                updateNotificationPreference('email_notifications_enabled', value);
+                updateNotificationPreference('emailNotifications', value);
               }}
             />
           </View>
@@ -166,7 +150,7 @@ export default function NotificationsScreen() {
               enabled={expenseAlerts}
               onChange={(value) => {
                 setExpenseAlerts(value);
-                updateNotificationPreference('expense_alerts_enabled', value);
+                updateNotificationPreference('expenseAlerts', value);
               }}
             />
             <View style={styles.divider} />
@@ -176,7 +160,7 @@ export default function NotificationsScreen() {
               enabled={budgetAlerts}
               onChange={(value) => {
                 setBudgetAlerts(value);
-                updateNotificationPreference('budget_alerts_enabled', value);
+                updateNotificationPreference('budgetAlerts', value);
               }}
             />
           </View>
@@ -192,7 +176,7 @@ export default function NotificationsScreen() {
               enabled={weeklyReports}
               onChange={(value) => {
                 setWeeklyReports(value);
-                updateNotificationPreference('weekly_reports_enabled', value);
+                updateNotificationPreference('weeklyReports', value);
               }}
             />
             <View style={styles.divider} />
@@ -202,7 +186,7 @@ export default function NotificationsScreen() {
               enabled={monthlyReports}
               onChange={(value) => {
                 setMonthlyReports(value);
-                updateNotificationPreference('monthly_reports_enabled', value);
+                updateNotificationPreference('monthlyReports', value);
               }}
             />
           </View>

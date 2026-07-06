@@ -14,15 +14,13 @@ import { Mail, Lock, Wallet, AlertCircle } from 'lucide-react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { useStore } from '../stores/useStore';
-import { supabase } from '../lib/supabase';
-import { Alert } from 'react-native';
 
 const DEMO_EMAIL = 'demo@example.com';
 const DEMO_PASSWORD = 'demo1234';
 
 export default function SignInScreen() {
   const router = useRouter();
-  const { initialize, setUser } = useStore();
+  const { signIn, setUser } = useStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
@@ -54,7 +52,7 @@ export default function SignInScreen() {
     setIsLoading(true);
     setErrorMessage('');
 
-    // Demo bypass — lets you explore the app without a Supabase backend configured
+    // Demo bypass — lets you explore the app without creating a local account
     if (email.trim().toLowerCase() === DEMO_EMAIL && password === DEMO_PASSWORD) {
       setUser({
         name: 'Demo User',
@@ -68,32 +66,14 @@ export default function SignInScreen() {
     }
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
-
-      if (error) throw error;
-
-      if (data.user) {
-        // Initialize store with user data
-        await initialize();
-        router.replace('/(tabs)/home');
-      }
+      await signIn(email.trim(), password);
+      router.replace('/(tabs)/home');
     } catch (error: any) {
       console.error('Sign in error:', error);
 
-      // Provide user-friendly error messages
       let userMessage = 'Failed to sign in. Please check your credentials.';
-
-      if (error.message?.includes('Network request failed') ||
-          error.message?.includes('fetch failed') ||
-          error.message?.includes('Failed to fetch')) {
-        userMessage = '🔌 Unable to connect to server. Please check your internet connection and try again.';
-      } else if (error.message?.includes('Invalid login credentials')) {
+      if (error.message?.includes('Invalid login credentials')) {
         userMessage = 'Invalid email or password. Please try again.';
-      } else if (error.message?.includes('Email not confirmed')) {
-        userMessage = 'Please verify your email address before signing in.';
       } else if (error.message) {
         userMessage = error.message;
       }
