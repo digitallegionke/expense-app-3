@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { User, Mail, Lock, Wallet, AlertCircle } from 'lucide-react-native';
+import { User, Mail, Lock, AlertCircle } from 'lucide-react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { useStore } from '../stores/useStore';
@@ -90,10 +90,7 @@ export default function SignUpScreen() {
         >
           {/* Logo */}
           <View style={styles.logoContainer}>
-            <View style={styles.logo}>
-              <Wallet size={40} color="#FFFFFF" />
-            </View>
-            <Text style={styles.logoText}>Expense Tracker</Text>
+            <Text style={styles.logoText}>Taxabo</Text>
           </View>
 
           {/* Header */}
@@ -202,17 +199,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 24,
   },
-  logo: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
-    backgroundColor: '#69508C',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
   logoText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '700',
     color: '#3D3C40',
   },
