@@ -17,9 +17,12 @@ import { useStore } from '../stores/useStore';
 import { supabase } from '../lib/supabase';
 import { Alert } from 'react-native';
 
+const DEMO_EMAIL = 'demo@example.com';
+const DEMO_PASSWORD = 'demo1234';
+
 export default function SignInScreen() {
   const router = useRouter();
-  const { initialize } = useStore();
+  const { initialize, setUser } = useStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
@@ -50,6 +53,19 @@ export default function SignInScreen() {
 
     setIsLoading(true);
     setErrorMessage('');
+
+    // Demo bypass — lets you explore the app without a Supabase backend configured
+    if (email.trim().toLowerCase() === DEMO_EMAIL && password === DEMO_PASSWORD) {
+      setUser({
+        name: 'Demo User',
+        email: DEMO_EMAIL,
+        isAuthenticated: true,
+        hasCompletedOnboarding: true,
+      });
+      setIsLoading(false);
+      router.replace('/(tabs)/home');
+      return;
+    }
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -112,6 +128,12 @@ export default function SignInScreen() {
             <Text style={styles.title}>Welcome Back</Text>
             <Text style={styles.subtitle}>
               Sign in to continue tracking your expenses
+            </Text>
+          </View>
+
+          <View style={styles.demoHint}>
+            <Text style={styles.demoHintText}>
+              Demo login: {DEMO_EMAIL} / {DEMO_PASSWORD}
             </Text>
           </View>
 
@@ -257,5 +279,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#EF4444',
     flex: 1,
+  },
+  demoHint: {
+    backgroundColor: '#F5F3FA',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginBottom: 24,
+  },
+  demoHintText: {
+    fontSize: 13,
+    color: '#69508C',
+    fontWeight: '500',
+    textAlign: 'center',
   },
 });

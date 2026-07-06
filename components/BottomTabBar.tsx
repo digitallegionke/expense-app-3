@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import type { BottomTabBarProps } from 'expo-router/tabs';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { CoinsTabIcon, HomeTabIcon, ProfileTabIcon, ReceiptTabIcon } from './icons';
 import { colors, fonts } from '../constants/theme';
 
