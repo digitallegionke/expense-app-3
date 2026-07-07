@@ -6,10 +6,10 @@ import { CoinsTabIcon, HomeTabIcon, ProfileTabIcon, ReceiptTabIcon } from './ico
 import { colors, fonts } from '../constants/theme';
 
 const ICONS: Record<string, (active: boolean) => ReactNode> = {
-  home: (active) => <HomeTabIcon color={active ? colors.primary : colors.primary} />,
-  receipts: (active) => <ReceiptTabIcon color={colors.primary} bg={active ? '#B9B0DA' : '#DEDBF1'} />,
-  vat: (active) => <CoinsTabIcon color={colors.primary} bg={active ? '#B9B0DA' : '#DEDBF1'} />,
-  profile: (active) => <ProfileTabIcon color={colors.primary} bg={active ? '#B9B0DA' : '#DEDBF1'} />,
+  home: (active) => <HomeTabIcon active={active} color={colors.primary} bg={colors.primaryTint2} />,
+  receipts: (active) => <ReceiptTabIcon active={active} color={colors.primary} bg={colors.primaryTint2} />,
+  vat: (active) => <CoinsTabIcon active={active} color={colors.primary} bg={colors.primaryTint2} />,
+  profile: (active) => <ProfileTabIcon active={active} color={colors.primary} bg={colors.primaryTint2} />,
 };
 
 const LABELS: Record<string, string> = {
@@ -38,7 +38,7 @@ export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
 
         return (
           <Pressable key={route.key} onPress={onPress} style={styles.tab}>
-            <View style={{ opacity: isFocused ? 1 : 0.7 }}>{renderIcon?.(isFocused)}</View>
+            {renderIcon?.(isFocused)}
             <Text style={[styles.label, { opacity: isFocused ? 1 : 0.7 }]}>{label}</Text>
           </Pressable>
         );
