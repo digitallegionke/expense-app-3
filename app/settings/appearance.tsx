@@ -1,17 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect, useState } from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { ArrowLeft, Check } from 'lucide-react-native';
-import { Button } from '../../components/Button';
 import { Picker } from '@react-native-picker/picker';
+import { BackArrowIcon, CheckIcon } from '../../components/icons';
+import { colors, fonts, radii } from '../../constants/theme';
 import { appearanceStorage, Theme } from '../../utils/appearanceStorage';
 
 interface ThemeOption {
@@ -26,15 +19,15 @@ interface AccentColor {
 }
 
 export default function AppearanceScreen() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
 
   const [theme, setTheme] = useState<Theme>('light');
-  const [accentColor, setAccentColor] = useState('#69508C');
+  const [accentColor, setAccentColor] = useState<string>(colors.primary);
   const [currency, setCurrency] = useState('KES');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
-  // Load preferences on mount
   useEffect(() => {
     loadPreferences();
   }, []);
@@ -60,22 +53,18 @@ export default function AppearanceScreen() {
   ];
 
   const accentColors: AccentColor[] = [
-    { value: '#69508C', label: 'Purple' },
+    { value: colors.primary, label: 'Purple' },
     { value: '#4285F4', label: 'Blue' },
-    { value: '#34A853', label: 'Green' },
-    { value: '#EA4335', label: 'Red' },
+    { value: colors.teal, label: 'Green' },
+    { value: colors.danger, label: 'Red' },
     { value: '#FBBC04', label: 'Yellow' },
-    { value: '#FF6D00', label: 'Orange' },
+    { value: colors.warning, label: 'Orange' },
   ];
 
   const handleSave = async () => {
     try {
       setIsSaving(true);
-      await appearanceStorage.save({
-        theme,
-        accentColor,
-        currency,
-      });
+      await appearanceStorage.save({ theme, accentColor, currency });
       Alert.alert('Success', 'Appearance settings saved successfully');
       router.back();
     } catch (error) {
@@ -87,34 +76,25 @@ export default function AppearanceScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <ArrowLeft size={24} color="#69508C" />
-          </TouchableOpacity>
-          <View style={styles.headerContent}>
-            <Text style={styles.title}>Appearance</Text>
-            <Text style={styles.subtitle}>Customize how the app looks</Text>
-          </View>
-        </View>
+    <View style={styles.screen}>
+      <View style={[styles.toolbar, { paddingTop: insets.top + 10 }]}>
+        <Pressable style={styles.toolbarButton} onPress={() => router.back()}>
+          <BackArrowIcon />
+        </Pressable>
+        <Text style={styles.toolbarTitle} numberOfLines={1}>
+          Appearance
+        </Text>
+        <View style={styles.toolbarButton} />
+      </View>
 
-        {/* Theme Selection */}
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>THEME</Text>
+          <Text style={styles.sectionTitle}>Theme</Text>
           <View style={styles.themeOptions}>
             {themes.map((themeOption) => (
-              <TouchableOpacity
+              <Pressable
                 key={themeOption.value}
-                style={[
-                  styles.themeOption,
-                  theme === themeOption.value && styles.themeOptionSelected,
-                ]}
+                style={[styles.themeOption, theme === themeOption.value && styles.themeOptionSelected]}
                 onPress={() => setTheme(themeOption.value)}
               >
                 <View style={styles.themeContent}>
@@ -123,24 +103,21 @@ export default function AppearanceScreen() {
                 </View>
                 {theme === themeOption.value && (
                   <View style={styles.checkCircle}>
-                    <Check size={16} color="#FFFFFF" />
+                    <CheckIcon size={14} color={colors.white} />
                   </View>
                 )}
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </View>
         </View>
 
-        {/* Accent Color */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>ACCENT COLOR</Text>
+          <Text style={styles.sectionTitle}>Accent Color</Text>
           <View style={styles.accentColorCard}>
-            <Text style={styles.accentColorDescription}>
-              Choose your preferred accent color
-            </Text>
+            <Text style={styles.accentColorDescription}>Choose your preferred accent color</Text>
             <View style={styles.colorGrid}>
               {accentColors.map((color) => (
-                <TouchableOpacity
+                <Pressable
                   key={color.value}
                   style={[
                     styles.colorButton,
@@ -149,18 +126,15 @@ export default function AppearanceScreen() {
                   ]}
                   onPress={() => setAccentColor(color.value)}
                 >
-                  {accentColor === color.value && (
-                    <Check size={20} color="#FFFFFF" />
-                  )}
-                </TouchableOpacity>
+                  {accentColor === color.value && <CheckIcon size={18} color={colors.white} />}
+                </Pressable>
               ))}
             </View>
           </View>
         </View>
 
-        {/* Display Settings */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>DISPLAY</Text>
+          <Text style={styles.sectionTitle}>Display</Text>
           <View style={styles.displayCard}>
             <Text style={styles.displayTitle}>Currency Format</Text>
             <View style={styles.pickerContainer}>
@@ -179,72 +153,74 @@ export default function AppearanceScreen() {
           </View>
         </View>
 
-        {/* Save Button */}
-        <View style={styles.buttonContainer}>
-          <Button
-            title={isSaving ? "Saving..." : "Save Changes"}
-            onPress={handleSave}
-            fullWidth
-            size="lg"
-            disabled={isSaving || isLoading}
-          />
-        </View>
+        <Pressable
+          style={[styles.saveButton, (isSaving || isLoading) && styles.saveButtonDisabled]}
+          onPress={handleSave}
+          disabled={isSaving || isLoading}
+        >
+          <Text style={styles.saveButtonText}>{isSaving ? 'Saving...' : 'Save Changes'}</Text>
+        </Pressable>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
+  toolbar: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 32,
-    gap: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  backButton: {
-    padding: 4,
+  toolbarButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
   },
-  headerContent: {
+  toolbarTitle: {
     flex: 1,
+    textAlign: 'center',
+    fontFamily: fonts.semibold,
+    fontSize: 20,
+    letterSpacing: -0.43,
+    lineHeight: 27,
+    color: colors.textMuted3,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#3D3C40',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#828282',
-    fontWeight: '400',
+  content: {
+    paddingHorizontal: 16,
+    paddingBottom: 60,
+    gap: 24,
   },
   section: {
-    marginBottom: 24,
+    gap: 12,
   },
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#828282',
-    marginBottom: 12,
-    paddingHorizontal: 4,
+    fontFamily: fonts.semibold,
+    fontSize: 13,
+    lineHeight: 17,
+    color: colors.textMuted2,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   themeOptions: {
     gap: 8,
   },
   themeOption: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
@@ -253,40 +229,43 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   themeOptionSelected: {
-    borderColor: '#69508C',
+    borderColor: colors.primary,
   },
   themeContent: {
     flex: 1,
+    gap: 2,
   },
   themeLabel: {
+    fontFamily: fonts.semibold,
     fontSize: 15,
-    fontWeight: '700',
-    color: '#3D3C40',
+    lineHeight: 20,
+    color: colors.textBlack,
   },
   themeDescription: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#828282',
-    marginTop: 2,
+    fontFamily: fonts.medium,
+    fontSize: 12,
+    lineHeight: 16,
+    color: colors.textMuted2,
   },
   checkCircle: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#69508C',
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   accentColorCard: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     padding: 16,
+    gap: 16,
   },
   accentColorDescription: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#828282',
-    marginBottom: 16,
+    fontFamily: fonts.medium,
+    fontSize: 12,
+    lineHeight: 16,
+    color: colors.textMuted2,
   },
   colorGrid: {
     flexDirection: 'row',
@@ -302,28 +281,42 @@ const styles = StyleSheet.create({
   },
   colorButtonSelected: {
     borderWidth: 2,
-    borderColor: '#3D3C40',
+    borderColor: colors.textDark,
   },
   displayCard: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     padding: 16,
+    gap: 12,
   },
   displayTitle: {
+    fontFamily: fonts.semibold,
     fontSize: 15,
-    fontWeight: '700',
-    color: '#3D3C40',
-    marginBottom: 12,
+    lineHeight: 20,
+    color: colors.textBlack,
   },
   pickerContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
+    backgroundColor: colors.white,
+    borderRadius: radii.md,
     overflow: 'hidden',
   },
   picker: {
     height: 44,
   },
-  buttonContainer: {
-    marginTop: 8,
+  saveButton: {
+    backgroundColor: colors.primary,
+    borderRadius: radii.md,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonDisabled: {
+    opacity: 0.6,
+  },
+  saveButtonText: {
+    fontFamily: fonts.semibold,
+    fontSize: 16,
+    lineHeight: 22,
+    color: colors.white,
   },
 });

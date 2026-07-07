@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { ArrowLeft, Eye, EyeOff } from 'lucide-react-native';
-import { Button } from '../../components/Button';
+import { BackArrowIcon, EyeIcon, EyeOffIcon } from '../../components/icons';
+import { colors, fonts, radii } from '../../constants/theme';
 import { useStore } from '../../stores/useStore';
 
 export default function ChangePasswordScreen() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { changePassword } = useStore();
 
@@ -68,213 +61,179 @@ export default function ChangePasswordScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <ArrowLeft size={24} color="#69508C" />
-          </TouchableOpacity>
-          <View style={styles.headerContent}>
-            <Text style={styles.title}>Change Password</Text>
-            <Text style={styles.subtitle}>Update your account password</Text>
-          </View>
-        </View>
+    <View style={styles.screen}>
+      <View style={[styles.toolbar, { paddingTop: insets.top + 10 }]}>
+        <Pressable style={styles.toolbarButton} onPress={() => router.back()}>
+          <BackArrowIcon />
+        </Pressable>
+        <Text style={styles.toolbarTitle} numberOfLines={1}>
+          Change Password
+        </Text>
+        <View style={styles.toolbarButton} />
+      </View>
 
-        {/* Form */}
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
-          {/* Current Password */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Current Password</Text>
             <View style={styles.passwordContainer}>
               <TextInput
-                style={[
-                  styles.input,
-                  styles.passwordInput,
-                  errors.current ? styles.inputError : null,
-                ]}
+                style={[styles.input, styles.passwordInput, errors.current ? styles.inputError : null]}
                 value={currentPassword}
                 onChangeText={(text) => {
                   setCurrentPassword(text);
                   if (errors.current) setErrors({ ...errors, current: '' });
                 }}
                 placeholder="Enter current password"
-                placeholderTextColor="#B3B3B3"
+                placeholderTextColor={colors.textMuted2}
                 secureTextEntry={!showCurrentPassword}
               />
-              <TouchableOpacity
+              <Pressable
                 style={styles.eyeButton}
                 onPress={() => setShowCurrentPassword(!showCurrentPassword)}
               >
                 {showCurrentPassword ? (
-                  <EyeOff size={20} color="#828282" />
+                  <EyeOffIcon size={20} color={colors.textMuted4} />
                 ) : (
-                  <Eye size={20} color="#828282" />
+                  <EyeIcon size={20} color={colors.textMuted4} />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             </View>
-            {errors.current ? (
-              <Text style={styles.errorText}>{errors.current}</Text>
-            ) : null}
+            {errors.current ? <Text style={styles.errorText}>{errors.current}</Text> : null}
           </View>
 
-          {/* New Password */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>New Password</Text>
             <View style={styles.passwordContainer}>
               <TextInput
-                style={[
-                  styles.input,
-                  styles.passwordInput,
-                  errors.new ? styles.inputError : null,
-                ]}
+                style={[styles.input, styles.passwordInput, errors.new ? styles.inputError : null]}
                 value={newPassword}
                 onChangeText={(text) => {
                   setNewPassword(text);
                   if (errors.new) setErrors({ ...errors, new: '' });
                 }}
                 placeholder="Enter new password"
-                placeholderTextColor="#B3B3B3"
+                placeholderTextColor={colors.textMuted2}
                 secureTextEntry={!showNewPassword}
               />
-              <TouchableOpacity
-                style={styles.eyeButton}
-                onPress={() => setShowNewPassword(!showNewPassword)}
-              >
+              <Pressable style={styles.eyeButton} onPress={() => setShowNewPassword(!showNewPassword)}>
                 {showNewPassword ? (
-                  <EyeOff size={20} color="#828282" />
+                  <EyeOffIcon size={20} color={colors.textMuted4} />
                 ) : (
-                  <Eye size={20} color="#828282" />
+                  <EyeIcon size={20} color={colors.textMuted4} />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             </View>
-            {errors.new ? (
-              <Text style={styles.errorText}>{errors.new}</Text>
-            ) : null}
+            {errors.new ? <Text style={styles.errorText}>{errors.new}</Text> : null}
           </View>
 
-          {/* Confirm Password */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Confirm New Password</Text>
             <View style={styles.passwordContainer}>
               <TextInput
-                style={[
-                  styles.input,
-                  styles.passwordInput,
-                  errors.confirm ? styles.inputError : null,
-                ]}
+                style={[styles.input, styles.passwordInput, errors.confirm ? styles.inputError : null]}
                 value={confirmPassword}
                 onChangeText={(text) => {
                   setConfirmPassword(text);
                   if (errors.confirm) setErrors({ ...errors, confirm: '' });
                 }}
                 placeholder="Confirm new password"
-                placeholderTextColor="#B3B3B3"
+                placeholderTextColor={colors.textMuted2}
                 secureTextEntry={!showConfirmPassword}
               />
-              <TouchableOpacity
+              <Pressable
                 style={styles.eyeButton}
                 onPress={() => setShowConfirmPassword(!showConfirmPassword)}
               >
                 {showConfirmPassword ? (
-                  <EyeOff size={20} color="#828282" />
+                  <EyeOffIcon size={20} color={colors.textMuted4} />
                 ) : (
-                  <Eye size={20} color="#828282" />
+                  <EyeIcon size={20} color={colors.textMuted4} />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             </View>
-            {errors.confirm ? (
-              <Text style={styles.errorText}>{errors.confirm}</Text>
-            ) : null}
+            {errors.confirm ? <Text style={styles.errorText}>{errors.confirm}</Text> : null}
           </View>
 
-          {/* Password Requirements */}
           <View style={styles.requirementsBox}>
             <Text style={styles.requirementsTitle}>Password requirements:</Text>
             <View style={styles.requirementsList}>
               <Text style={styles.requirementItem}>• At least 6 characters</Text>
-              <Text style={styles.requirementItem}>
-                • Mix of letters and numbers recommended
-              </Text>
+              <Text style={styles.requirementItem}>• Mix of letters and numbers recommended</Text>
             </View>
           </View>
-
-          {/* Save Button */}
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Update Password"
-              onPress={handleSubmit}
-              fullWidth
-              size="lg"
-            />
-          </View>
         </View>
+
+        <Pressable style={styles.saveButton} onPress={handleSubmit}>
+          <Text style={styles.saveButtonText}>Update Password</Text>
+        </Pressable>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
+  toolbar: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 32,
-    gap: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  backButton: {
-    padding: 4,
+  toolbarButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
   },
-  headerContent: {
+  toolbarTitle: {
     flex: 1,
+    textAlign: 'center',
+    fontFamily: fonts.semibold,
+    fontSize: 20,
+    letterSpacing: -0.43,
+    lineHeight: 27,
+    color: colors.textMuted3,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#3D3C40',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#828282',
-    fontWeight: '400',
+  content: {
+    paddingHorizontal: 16,
+    paddingBottom: 60,
+    gap: 24,
   },
   form: {
     gap: 20,
   },
   inputGroup: {
-    marginBottom: 4,
+    gap: 8,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#3D3C40',
-    marginBottom: 8,
+    fontFamily: fonts.semibold,
+    fontSize: 13,
+    lineHeight: 17,
+    color: colors.textDark,
   },
   passwordContainer: {
     position: 'relative',
   },
   input: {
     height: 52,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#3D3C40',
+    fontFamily: fonts.medium,
+    fontSize: 15,
+    color: colors.textBlack,
     borderWidth: 1,
     borderColor: 'transparent',
   },
@@ -282,40 +241,51 @@ const styles = StyleSheet.create({
     paddingRight: 48,
   },
   inputError: {
-    borderColor: '#B3261E',
+    borderColor: colors.danger,
   },
   eyeButton: {
     position: 'absolute',
     right: 16,
     top: 16,
-    padding: 4,
   },
   errorText: {
-    fontSize: 13,
-    color: '#B3261E',
-    marginTop: 6,
+    fontFamily: fonts.medium,
+    fontSize: 12,
+    lineHeight: 16,
+    color: colors.danger,
   },
   requirementsBox: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     padding: 16,
-    marginTop: 4,
+    gap: 8,
   },
   requirementsTitle: {
+    fontFamily: fonts.semibold,
     fontSize: 13,
-    fontWeight: '500',
-    color: '#3D3C40',
-    marginBottom: 8,
+    lineHeight: 17,
+    color: colors.textDark,
   },
   requirementsList: {
     gap: 4,
   },
   requirementItem: {
+    fontFamily: fonts.medium,
     fontSize: 13,
-    color: '#828282',
-    lineHeight: 20,
+    lineHeight: 19,
+    color: colors.textMuted2,
   },
-  buttonContainer: {
-    marginTop: 16,
+  saveButton: {
+    backgroundColor: colors.primary,
+    borderRadius: radii.md,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonText: {
+    fontFamily: fonts.semibold,
+    fontSize: 16,
+    lineHeight: 22,
+    color: colors.white,
   },
 });

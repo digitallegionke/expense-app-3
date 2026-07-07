@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { ArrowLeft, Camera } from 'lucide-react-native';
+import { BackArrowIcon, CameraIcon } from '../../components/icons';
+import { colors, fonts, radii } from '../../constants/theme';
 import { useStore } from '../../stores/useStore';
-import { Button } from '../../components/Button';
 
 export default function EditProfileScreen() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { user, updateProfile, initialize } = useStore();
 
@@ -22,7 +15,6 @@ export default function EditProfileScreen() {
   const [email, setEmail] = useState(user.email || '');
   const [errors, setErrors] = useState({ name: '', email: '' });
 
-  // Update form when user data changes
   React.useEffect(() => {
     const displayName = user.name === 'User' || user.name.includes('@') ? '' : user.name;
     setName(displayName);
@@ -57,7 +49,6 @@ export default function EditProfileScreen() {
     if (validateForm()) {
       try {
         await updateProfile(name.trim(), email);
-        // Refresh user data to get the updated name
         await initialize();
         Alert.alert('Success', 'Profile updated successfully');
         router.back();
@@ -69,44 +60,34 @@ export default function EditProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <ArrowLeft size={24} color="#69508C" />
-          </TouchableOpacity>
-          <View style={styles.headerContent}>
-            <Text style={styles.title}>Edit Profile</Text>
-            <Text style={styles.subtitle}>Update your personal information</Text>
-          </View>
-        </View>
+    <View style={styles.screen}>
+      <View style={[styles.toolbar, { paddingTop: insets.top + 10 }]}>
+        <Pressable style={styles.toolbarButton} onPress={() => router.back()}>
+          <BackArrowIcon />
+        </Pressable>
+        <Text style={styles.toolbarTitle} numberOfLines={1}>
+          Edit Profile
+        </Text>
+        <View style={styles.toolbarButton} />
+      </View>
 
-        {/* Profile Picture */}
-        <View style={styles.avatarContainer}>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.avatarSection}>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{name.charAt(0).toUpperCase()}</Text>
+            <Text style={styles.avatarText}>{(name || 'U').charAt(0).toUpperCase()}</Text>
           </View>
-          <TouchableOpacity style={styles.cameraButton}>
-            <Camera size={16} color="#FFFFFF" />
-          </TouchableOpacity>
+          <Pressable style={styles.cameraButton}>
+            <CameraIcon size={16} color={colors.white} />
+          </Pressable>
         </View>
 
-        {/* Form */}
-        <View style={styles.form}>
-          {!name && (
-            <View style={styles.infoBox}>
-              <Text style={styles.infoText}>
-                👋 Please enter your name to personalize your profile
-              </Text>
-            </View>
-          )}
+        {!name && (
+          <View style={styles.infoBox}>
+            <Text style={styles.infoText}>Please enter your name to personalize your profile</Text>
+          </View>
+        )}
 
-          {/* Name Input */}
+        <View style={styles.form}>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Full Name</Text>
             <TextInput
@@ -117,14 +98,11 @@ export default function EditProfileScreen() {
                 if (errors.name) setErrors({ ...errors, name: '' });
               }}
               placeholder="Enter your full name"
-              placeholderTextColor="#B3B3B3"
+              placeholderTextColor={colors.textMuted2}
             />
-            {errors.name ? (
-              <Text style={styles.errorText}>{errors.name}</Text>
-            ) : null}
+            {errors.name ? <Text style={styles.errorText}>{errors.name}</Text> : null}
           </View>
 
-          {/* Email Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Email</Text>
             <TextInput
@@ -135,81 +113,77 @@ export default function EditProfileScreen() {
                 if (errors.email) setErrors({ ...errors, email: '' });
               }}
               placeholder="Enter your email"
-              placeholderTextColor="#B3B3B3"
+              placeholderTextColor={colors.textMuted2}
               keyboardType="email-address"
               autoCapitalize="none"
             />
-            {errors.email ? (
-              <Text style={styles.errorText}>{errors.email}</Text>
-            ) : null}
-          </View>
-
-          {/* Save Button */}
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Save Changes"
-              onPress={handleSubmit}
-              fullWidth
-              size="lg"
-            />
+            {errors.email ? <Text style={styles.errorText}>{errors.email}</Text> : null}
           </View>
         </View>
+
+        <Pressable style={styles.saveButton} onPress={handleSubmit}>
+          <Text style={styles.saveButtonText}>Save Changes</Text>
+        </Pressable>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
+  toolbar: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 32,
-    gap: 16,
-  },
-  backButton: {
-    padding: 4,
-  },
-  headerContent: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#3D3C40',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#828282',
-    fontWeight: '400',
-  },
-  avatarContainer: {
     alignItems: 'center',
-    marginBottom: 32,
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 10,
+  },
+  toolbarButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
+  },
+  toolbarTitle: {
+    flex: 1,
+    textAlign: 'center',
+    fontFamily: fonts.semibold,
+    fontSize: 20,
+    letterSpacing: -0.43,
+    lineHeight: 27,
+    color: colors.textMuted3,
+  },
+  content: {
+    paddingHorizontal: 16,
+    paddingBottom: 60,
+    gap: 24,
+  },
+  avatarSection: {
+    alignItems: 'center',
+    marginTop: 8,
   },
   avatar: {
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'rgba(103, 92, 168, 0.15)',
+    backgroundColor: colors.primaryTint2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   avatarText: {
-    fontSize: 40,
-    fontWeight: '600',
-    color: '#675CA8',
+    fontFamily: fonts.bold,
+    fontSize: 36,
+    color: colors.primary,
   },
   cameraButton: {
     position: 'absolute',
@@ -218,52 +192,64 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#69508C',
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  infoBox: {
+    backgroundColor: colors.primaryTint,
+    borderRadius: radii.md,
+    padding: 16,
+  },
+  infoText: {
+    fontFamily: fonts.medium,
+    fontSize: 13,
+    lineHeight: 19,
+    color: colors.primary,
   },
   form: {
     gap: 20,
   },
-  infoBox: {
-    backgroundColor: '#EEF2FF',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 8,
-  },
-  infoText: {
-    fontSize: 14,
-    color: '#4F46E5',
-    lineHeight: 20,
-  },
   inputGroup: {
-    marginBottom: 4,
+    gap: 8,
   },
   label: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#3D3C40',
-    marginBottom: 8,
+    fontFamily: fonts.semibold,
+    fontSize: 13,
+    lineHeight: 17,
+    color: colors.textDark,
   },
   input: {
     height: 52,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#3D3C40',
+    fontFamily: fonts.medium,
+    fontSize: 15,
+    color: colors.textBlack,
     borderWidth: 1,
     borderColor: 'transparent',
   },
   inputError: {
-    borderColor: '#B3261E',
+    borderColor: colors.danger,
   },
   errorText: {
-    fontSize: 13,
-    color: '#B3261E',
-    marginTop: 6,
+    fontFamily: fonts.medium,
+    fontSize: 12,
+    lineHeight: 16,
+    color: colors.danger,
   },
-  buttonContainer: {
-    marginTop: 16,
+  saveButton: {
+    backgroundColor: colors.primary,
+    borderRadius: radii.md,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveButtonText: {
+    fontFamily: fonts.semibold,
+    fontSize: 16,
+    lineHeight: 22,
+    color: colors.white,
   },
 });

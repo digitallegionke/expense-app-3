@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import {
-  ArrowLeft,
-  Mail,
-  MessageCircle,
-  FileText,
-  ExternalLink,
-  ChevronDown,
-} from 'lucide-react-native';
+  BackArrowIcon,
+  ChevronDownIcon,
+  ExternalLinkIcon,
+  FileTextIcon,
+  MailIcon,
+  MessageCircleIcon,
+} from '../../components/icons';
+import { colors, fonts, radii } from '../../constants/theme';
 
 interface FAQ {
   question: string;
@@ -24,6 +18,7 @@ interface FAQ {
 }
 
 export default function HelpSupportScreen() {
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
 
@@ -55,100 +50,73 @@ export default function HelpSupportScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <ArrowLeft size={24} color="#69508C" />
-          </TouchableOpacity>
-          <View style={styles.headerContent}>
-            <Text style={styles.title}>Help & Support</Text>
-            <Text style={styles.subtitle}>Get help and contact our team</Text>
-          </View>
-        </View>
+    <View style={styles.screen}>
+      <View style={[styles.toolbar, { paddingTop: insets.top + 10 }]}>
+        <Pressable style={styles.toolbarButton} onPress={() => router.back()}>
+          <BackArrowIcon />
+        </Pressable>
+        <Text style={styles.toolbarTitle} numberOfLines={1}>
+          Help & Support
+        </Text>
+        <View style={styles.toolbarButton} />
+      </View>
 
-        {/* Contact Options */}
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>CONTACT US</Text>
+          <Text style={styles.sectionTitle}>Contact Us</Text>
           <View style={styles.contactOptions}>
-            <TouchableOpacity
-              style={styles.contactOption}
-              onPress={handleContactEmail}
-            >
+            <Pressable style={styles.contactOption} onPress={handleContactEmail}>
               <View style={styles.iconContainer}>
-                <Mail size={20} color="#69508C" />
+                <MailIcon size={20} color={colors.primary} />
               </View>
               <View style={styles.contactContent}>
                 <Text style={styles.contactTitle}>Email Support</Text>
-                <Text style={styles.contactDescription}>
-                  support@expenseapp.com
-                </Text>
+                <Text style={styles.contactDescription}>support@expenseapp.com</Text>
               </View>
-              <ExternalLink size={18} color="#B3B3B3" />
-            </TouchableOpacity>
+              <ExternalLinkIcon size={18} color={colors.textMuted2} />
+            </Pressable>
 
-            <TouchableOpacity style={styles.contactOption}>
+            <Pressable style={styles.contactOption}>
               <View style={styles.iconContainer}>
-                <MessageCircle size={20} color="#69508C" />
+                <MessageCircleIcon size={20} color={colors.primary} />
               </View>
               <View style={styles.contactContent}>
                 <Text style={styles.contactTitle}>Live Chat</Text>
-                <Text style={styles.contactDescription}>
-                  Chat with our support team
-                </Text>
+                <Text style={styles.contactDescription}>Chat with our support team</Text>
               </View>
-              <ExternalLink size={18} color="#B3B3B3" />
-            </TouchableOpacity>
+              <ExternalLinkIcon size={18} color={colors.textMuted2} />
+            </Pressable>
 
-            <TouchableOpacity style={styles.contactOption}>
+            <Pressable style={styles.contactOption}>
               <View style={styles.iconContainer}>
-                <FileText size={20} color="#69508C" />
+                <FileTextIcon size={20} color={colors.primary} />
               </View>
               <View style={styles.contactContent}>
                 <Text style={styles.contactTitle}>Documentation</Text>
-                <Text style={styles.contactDescription}>
-                  Browse our help articles
-                </Text>
+                <Text style={styles.contactDescription}>Browse our help articles</Text>
               </View>
-              <ExternalLink size={18} color="#B3B3B3" />
-            </TouchableOpacity>
+              <ExternalLinkIcon size={18} color={colors.textMuted2} />
+            </Pressable>
           </View>
         </View>
 
-        {/* FAQs */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>FREQUENTLY ASKED QUESTIONS</Text>
+          <Text style={styles.sectionTitle}>Frequently Asked Questions</Text>
           <View style={styles.faqList}>
             {faqs.map((faq, index) => (
               <View key={index} style={styles.faqItem}>
-                <TouchableOpacity
-                  style={styles.faqQuestion}
-                  onPress={() => toggleFAQ(index)}
-                >
+                <Pressable style={styles.faqQuestion} onPress={() => toggleFAQ(index)}>
                   <Text style={styles.faqQuestionText}>{faq.question}</Text>
-                  <ChevronDown
-                    size={20}
-                    color="#69508C"
-                    style={[
-                      styles.faqChevron,
-                      expandedFAQ === index && styles.faqChevronExpanded,
-                    ]}
-                  />
-                </TouchableOpacity>
-                {expandedFAQ === index && (
-                  <Text style={styles.faqAnswer}>{faq.answer}</Text>
-                )}
+                  <View style={expandedFAQ === index ? styles.faqChevronExpanded : undefined}>
+                    <ChevronDownIcon size={20} color={colors.primary} />
+                  </View>
+                </Pressable>
+                {expandedFAQ === index && <Text style={styles.faqAnswer}>{faq.answer}</Text>}
               </View>
             ))}
           </View>
         </View>
 
-        {/* App Info */}
         <View style={styles.appInfo}>
           <View style={styles.appInfoRow}>
             <Text style={styles.appInfoLabel}>App Version</Text>
@@ -160,62 +128,67 @@ export default function HelpSupportScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.background,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
+  toolbar: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 32,
-    gap: 16,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 10,
   },
-  backButton: {
-    padding: 4,
+  toolbarButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
   },
-  headerContent: {
+  toolbarTitle: {
     flex: 1,
+    textAlign: 'center',
+    fontFamily: fonts.semibold,
+    fontSize: 20,
+    letterSpacing: -0.43,
+    lineHeight: 27,
+    color: colors.textMuted3,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#3D3C40',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#828282',
-    fontWeight: '400',
+  content: {
+    paddingHorizontal: 16,
+    paddingBottom: 60,
+    gap: 24,
   },
   section: {
-    marginBottom: 24,
+    gap: 12,
   },
   sectionTitle: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#828282',
-    marginBottom: 12,
-    paddingHorizontal: 4,
+    fontFamily: fonts.semibold,
+    fontSize: 13,
+    lineHeight: 17,
+    color: colors.textMuted2,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
   contactOptions: {
     gap: 8,
   },
   contactOption: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
+    padding: 14,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
@@ -223,31 +196,33 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(103, 92, 168, 0.1)',
+    borderRadius: radii.md,
+    backgroundColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
   contactContent: {
     flex: 1,
+    gap: 2,
   },
   contactTitle: {
+    fontFamily: fonts.semibold,
     fontSize: 15,
-    fontWeight: '700',
-    color: '#3D3C40',
+    lineHeight: 20,
+    color: colors.textBlack,
   },
   contactDescription: {
-    fontSize: 13,
-    fontWeight: '500',
-    color: '#828282',
-    marginTop: 2,
+    fontFamily: fonts.medium,
+    fontSize: 12,
+    lineHeight: 16,
+    color: colors.textMuted2,
   },
   faqList: {
-    gap: 12,
+    gap: 8,
   },
   faqItem: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     overflow: 'hidden',
   },
   faqQuestion: {
@@ -259,12 +234,10 @@ const styles = StyleSheet.create({
   },
   faqQuestionText: {
     flex: 1,
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#3D3C40',
-  },
-  faqChevron: {
-    transform: [{ rotate: '0deg' }],
+    fontFamily: fonts.semibold,
+    fontSize: 14,
+    lineHeight: 19,
+    color: colors.textBlack,
   },
   faqChevronExpanded: {
     transform: [{ rotate: '180deg' }],
@@ -272,29 +245,32 @@ const styles = StyleSheet.create({
   faqAnswer: {
     paddingHorizontal: 16,
     paddingBottom: 16,
-    fontSize: 14,
-    color: '#828282',
-    lineHeight: 22,
+    fontFamily: fonts.medium,
+    fontSize: 13,
+    lineHeight: 20,
+    color: colors.textMuted2,
   },
   appInfo: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    backgroundColor: colors.card,
+    borderRadius: radii.md,
     padding: 16,
-    marginTop: 8,
+    gap: 8,
   },
   appInfoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
   },
   appInfoLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#828282',
+    fontFamily: fonts.medium,
+    fontSize: 13,
+    lineHeight: 18,
+    color: colors.textMuted2,
   },
   appInfoValue: {
-    fontSize: 14,
-    color: '#3D3C40',
+    fontFamily: fonts.medium,
+    fontSize: 13,
+    lineHeight: 18,
+    color: colors.textBlack,
   },
 });
